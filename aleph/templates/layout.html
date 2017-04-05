@@ -10,12 +10,12 @@
       <link type="text/css" href="{{ ASSET_URL }}" rel="stylesheet">
     {% endassets %}
 
-    <meta property="og:title" content="Open Gazettes Kenya" />
-    <meta name="description" content="Making Kenyan Government Gazettes freely available." />
-    <meta property="og:description" content="Making Kenyan Government Gazettes freely available." />
-    <link rel="canonical" href="http://opengazettes.org.ke/" />
-    <meta property="og:url" content="http://opengazettes.org.ke/" />
-    <meta property="og:site_name" content="Open Gazettes Kenya" />
+    <meta property="og:title" content="{{config.APP_TITLE}}" />
+    <meta name="description" content="Making {{config.NATIONALITY}} Government Gazettes freely available." />
+    <meta property="og:description" content="Making {{config.NATIONALITY}} Government Gazettes freely available." />
+    <link rel="canonical" href="{{config.OPENGAZETTES_URL}}" />
+    <meta property="og:url" content="{{config.OPENGAZETTES_URL}}" />
+    <meta property="og:site_name" content="{{config.APP_TITLE}}" />
     <meta property="og:image" content="http://opengazettes.org.za/img/banner_5.png" />
 
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
@@ -33,8 +33,8 @@
               <span class="icon-bar"></span>
               <span class="icon-bar"></span>
             </button>
-            <a class="navbar-brand" href="http://opengazettes.org.za"><img alt="{{config.APP_TITLE}}" src="{{config.APP_LOGO}}"></a>
-            <a class="navbar-brand" href="http://opengazettes.org.za">{{config.APP_TITLE}}</a>
+            <a class="navbar-brand" href="{{config.OPENGAZETTES_URL}}"><img alt="{{config.APP_TITLE}}" src="{{config.APP_LOGO}}"></a>
+            <a class="navbar-brand" href="{{config.OPENGAZETTES_URL}}">{{config.APP_TITLE}}</a>
           </div>
 
           <div uib-collapse="navbarCollapsed" class="navbar-collapse bs-js-navbar-collapse">
@@ -43,13 +43,13 @@
                 <a href="/">Search</a>
               </li>
               <li>
-                <a href="http://opengazettes.org.za/join">Liberate Gazettes</a>
+                <a href="{{config.OPENGAZETTES_URL}}/join">Liberate Gazettes</a>
               </li>
               <li>
-                <a href="http://opengazettes.org.za/about">About</a>
+                <a href="{{config.OPENGAZETTES_URL}}/about">About</a>
               </li>
               <li>
-                <a href="http://opengazettes.org.za/about#contact-us">Contact</a>
+                <a href="{{config.OPENGAZETTES_URL}}/about#contact-us">Contact</a>
               </li>
             </ul>
 

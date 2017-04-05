@@ -74,7 +74,11 @@ def metadata():
         'app': {
             'title': six.text_type(app_title),
             'url': six.text_type(app_url),
-            'samples': get_config('SAMPLE_SEARCHES')
+            'samples': get_config('SAMPLE_SEARCHES'),
+            'opengazettes_url': get_config('OPENGAZETTES_URL')
+                        .replace("http://", "")
+                        .replace("https://", ""),
+            'nationality': get_config('NATIONALITY')
         },
         'fields': Metadata.facets(),
         'categories': get_config('COLLECTION_CATEGORIES', {}),
