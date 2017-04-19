@@ -11,7 +11,7 @@ RUN pip install -q --upgrade pip \
 COPY . /aleph
 WORKDIR /aleph
 ENV ALEPH_SETTINGS /aleph/code4sa_aleph_config.py
-RUN pip install git+git://github.com/Code4SA/aleph_zagazettecrawler.git && \
+RUN pip install git+git://github.com:OpenGazettes/aleph_ke_gazette_crawler.git && \
     pip install -q -e /aleph && \
     rm -rf /aleph/.git && \
     bower --allow-root --quiet install
