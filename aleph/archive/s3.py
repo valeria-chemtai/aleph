@@ -32,6 +32,11 @@ class S3Archive(Archive):  # pragma: no cover
         try:
             self.bucket.load()
         except ClientError as e:
+            print(self.key_id)
+            print(self.secret)
+            print(self.region)
+            print(self.bucket_name)
+            print(e)
             error_code = int(e.response['Error']['Code'])
             if error_code == 404:
                 self.bucket.create(CreateBucketConfiguration={
