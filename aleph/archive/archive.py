@@ -10,7 +10,7 @@ class Archive(object):
         ch = meta.content_hash
         if ch is None:
             raise ValueError("No content hash available.")
-        path = os.path.join(ch[:2], ch[2:4], ch[4:6], ch)
+        path = os.path.join('aleph', ch[:2], ch[2:4], ch[4:6], ch)
         file_name = 'data'
         if meta.file_name is not None:
             file_name = meta.file_name
