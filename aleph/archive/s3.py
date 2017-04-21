@@ -4,7 +4,6 @@ import logging
 import tempfile
 
 from boto3.session import Session
-# from botocore.exceptions import ClientError
 
 from aleph.archive.archive import Archive
 from aleph.util import make_filename
@@ -28,22 +27,6 @@ class S3Archive(Archive):  # pragma: no cover
         self.client = self.session.client('s3')
         log.info("Using archive: s3://%s", self.bucket_name)
         self.bucket = self.s3.Bucket(self.bucket_name)
-
-        # try:
-        #     self.bucket.load()
-        # except ClientError as e:
-        #     print(self.key_id)
-        #     print(self.secret)
-        #     print(self.region)
-        #     print(self.bucket_name)
-        #     print(e)
-        #     error_code = int(e.response['Error']['Code'])
-        #     if error_code == 404:
-        #         self.bucket.create(CreateBucketConfiguration={
-        #             'LocationConstraint': self.region
-        #         })
-        #     else:
-        #         raise
 
     def upgrade(self):
         """Make sure bucket policy is set correctly."""
