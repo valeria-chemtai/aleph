@@ -6,7 +6,7 @@ import requests
 
 def extract_pdf(path, languages=None):
     with open(path, 'rb') as f:
-        headers = {'accept': 'application/pdf', 'content-type': 'text/html'}
+        headers = {'accept': 'text/html', 'content-type': 'application/pdf'}
         tika_url = urljoin(get_config("TIKA_URI"), '/tika')
         r = requests.put(tika_url, data=f, headers=headers)
         r.raise_for_status()
