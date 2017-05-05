@@ -1,21 +1,26 @@
 <div class="jumbotron">
-  <h1>{{statistics.document_count | number}} gazettes</h1>
+  <h1>{{::statistics.documents_count | number}} gazettes</h1>
   <p class="teaser">from 2006 to 2017 available.</p>
   <div class="search-area">
-    <form class="form-horizontal" role="search" ng-submit="submitSearch(form)">
-      <div class="input-group input-group-lg">
-        <input type="text" class="form-control" autofocus ng-model="query.q"
-          placeholder="Search documents and data sources">
+    <form class="form-horizontal actions" role="search" ng-submit="searchDocuments(form)">
+      <div class="input-group">
+        <input type="text" class="form-control" autofocus ng-model="documentsQuery.q"
+            placeholder="{{::statistics.documents_count | number}} documents">
         <span class="input-group-btn">
           <button class="btn btn-primary" type="submit">Search</button>
         </span>
       </div>
-      <p class="sample-searches">
-        Try searches:
+      <p class="context sample-searches">
+        Examples:
         <span ng-repeat="sample in metadata.app.samples">
           <span ng-if="$last">or</span>
-          <a href="/search?q={{::sample}}">{{::sample}}</a><span ng-if="!$last">,</span>
+          <a href="/documents?q={{::sample}}">{{::sample}}</a>
+          <span ng-if="!$last">,</span>
         </span>
+        ,
+          or
+        <a href="/documents/sources">browse sources</a>
+        .
       </p>
     </form>
   </div>
@@ -23,21 +28,23 @@
 
 <div class="home screen">
   <div class="row">
-    <div class="col-md-6 feature">
-      <h2>
-        <i class="fa fa-fw fa-file-text"></i>
-        Search it all
+    <div class="col-md-4 feature">
+      <h2> <i class="fa fa-fw fa-file-text"></i>
+        Search documents
       </h2>
+
       <p>
         {{metadata.app.title}} lets you search across
-        <a href="/collections">{{statistics.collection_count | number}} collections
-        of {{metadata.app.nationality}} gazettes</a> from {{metadata.app.opengazettes_url}}
+        <a href="/collections">
+          {{::statistics.collections_count | number}} collections
+        of {{metadata.app.nationality}} gazettes
+        </a>
+        from {{metadata.app.opengazettes_url}}
       </p>
     </div>
 
-    <div class="col-md-6 feature" ng-if="::!authz.logged_in()">
-      <h2>
-        <i class="fa fa-bell"></i>
+    <div class="col-md-4 feature" ng-if="::!authz.logged_in()">
+      <h2> <i class="fa fa-bell"></i>
         E-Mail Alerts
       </h2>
       <p>
@@ -45,17 +52,29 @@
         any additional matches for your previous searches by
         setting up e-mail alerts.
       </p>
+
     </div>
-  </div>
-  <div class="row">
-    <div class="col-md-6 feature">
+
+    <div class="col-md-4 feature">
       <h2>
         <i class="fa fa-fw fa-users"></i>
-        Persons of Interest
+        Persons of interest
       </h2>
       <p>
         Gazettes are cross-referenced with persons and companies by ID and CIPC numbers respectively.
       </p>
+      <form class="form-horizontal actions" role="search" ng-submit="searchEntities(form)">
+        <div class="input-group">
+          <input type="text" class="form-control" autofocus ng-model="entitiesQuery.q"
+            placeholder="{{::statistics.entities_count | number}} people and companies">
+          <span class="input-group-btn">
+            <button class="btn btn-primary" type="submit">Search</button>
+          </span>
+        </div>
+        <p class="context">
+          <a href="/datasets">Browse databases</a>.
+        </p>
+      </form>
     </div>
   </div>
 

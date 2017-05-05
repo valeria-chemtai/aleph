@@ -4,7 +4,6 @@ from flask import session
 from aleph import signals
 
 oauth = OAuth()
-_configured = False
 
 
 def get_oauth_token():
@@ -14,6 +13,9 @@ def get_oauth_token():
 
 
 def setup_providers(app):
+    # Reset the remote apps first!
+    oauth.remote_apps = {}
+
     providers = app.config.get('OAUTH', [])
     if isinstance(providers, dict):
         # support for legacy single google provider
@@ -32,16 +34,9 @@ def setup_providers(app):
 
 
 def configure_oauth(app):
-    global _configured
-
-    if _configured:
-        return
-
     if not app.config.get('TESTING'):
         setup_providers(app)
     oauth.init_app(app)
-    _configured = True
-
     return oauth
 
 
@@ -59,7 +54,6 @@ def handle_google_oauth(sender, provider=None, session=None):
     user_id = 'google:%s' % me.data.get('id')
     role = Role.load_or_create(user_id, Role.USER, me.data.get('name'),
                                email=me.data.get('email'))
-    session['roles'].append(role.id)
     session['user'] = role.id
 
 
@@ -73,5 +67,4 @@ def handle_facebook_oauth(sender, provider=None, session=None):
     user_id = 'facebook:%s' % me.data.get('id')
     role = Role.load_or_create(user_id, Role.USER, me.data.get('name'),
                                email=me.data.get('email'))
-    session['roles'].append(role.id)
     session['user'] = role.id
