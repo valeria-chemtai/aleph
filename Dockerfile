@@ -9,7 +9,6 @@ RUN pip install -q -r /tmp/requirements.txt \
 
 COPY . /aleph
 WORKDIR /aleph
-ENV ALEPH_SETTINGS /aleph/code4africa_aleph_config.py
 
 RUN pip install -q -e .
 
