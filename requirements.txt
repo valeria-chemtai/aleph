@@ -64,6 +64,3 @@ functools32>=3.2
 
 # Testing
 -r requirements-testing.txt
-
-# Kenya Gazettes Crawler
-git+git://github.com/OpenGazettes/aleph_ke_gazette_crawler.git
