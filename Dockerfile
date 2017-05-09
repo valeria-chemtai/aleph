@@ -21,6 +21,4 @@ RUN touch aleph/static/style/_custom.scss && \
 RUN apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 
 EXPOSE 8000
-CMD gunicorn -w 5 -b 0.0.0.0:8000 --name aleph_gunicorn \
-  --log-level info --log-file /var/log/gunicorn.log \
-  aleph.manage:app
+CMD gunicorn -w 5 -b 0.0.0.0:8000 --name aleph_gunicorn --log-level info --log-file /var/log/gunicorn.log aleph.manage:app
