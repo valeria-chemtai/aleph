@@ -63,4 +63,4 @@ functools32>=3.2
 # -r requirements-docs.txt
 
 # Testing
--r requirements-testing.txt
+# -r requirements-testing.txt
