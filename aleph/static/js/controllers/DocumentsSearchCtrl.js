@@ -52,7 +52,6 @@ aleph.controller('DocumentsSearchCtrl', ['$scope', '$route', '$location', '$time
   };
 
   $scope.$on('$routeUpdate', function() {
-    $analytics.pageTrack(window.location.pathname + window.location.search);
     reloadSearch();
   });
 
