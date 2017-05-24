@@ -60,6 +60,9 @@ dalet>=1.1
 subprocess32
 functools32>=3.2
 
+# So that Elasticsearch will work with https index URLs (Amazon Elasticsearch Service)
+certifi==2017.4.17
+
 # Docs
 # -r requirements-docs.txt
 
