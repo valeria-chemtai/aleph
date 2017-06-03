@@ -70,7 +70,9 @@ def metadata():
             'opengazettes_url': get_config('OPENGAZETTES_URL')
                         .replace("http://", "")
                         .replace("https://", ""),
-            'nationality': get_config('NATIONALITY')
+            'nationality': get_config('NATIONALITY'),
+            'start_year': get_config('GAZETTES_START_YEAR'),
+            'end_year': get_config('GAZETTES_END_YEAR')
         },
         'fields': Metadata.facets(),
         'categories': get_config('COLLECTION_CATEGORIES', {}),

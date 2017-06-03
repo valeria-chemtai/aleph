@@ -70,6 +70,9 @@ OPENGAZETTES_URL = env.get('OPENGAZETTES_URL',
 # More here: https://en.wikipedia.org/wiki/Lists_of_people_by_nationality
 NATIONALITY = env.get('NATIONALITY', 'Kenyan')
 
+GAZETTES_START_YEAR = env.get('ALEPH_GAZETTES_START_YEAR', '1906')
+GAZETTES_END_YEAR = env.get('ALEPH_GAZETTES_END_YEAR', '2017')
+
 
 ###############################################################################
 # Data storage
