@@ -237,6 +237,7 @@ aleph.config([
     controller: 'HomeCtrl',
     reloadOnSearch: false,
     resolve: {
+      'collections': loadSourceCollections,
       'statistics': loadStatistics,
       'metadata': loadMetadata
     }
