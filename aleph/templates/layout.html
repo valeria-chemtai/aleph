@@ -19,19 +19,6 @@
     <link type="text/css" href="{{ url_for('static', filename='assets/aleph.css') }}" rel="stylesheet">
     <link rel="shortcut icon" href="{{ config.APP_FAVICON }}">
 
-    <style type="text/css">
-      .flex-caption {
-        width: 96%;
-        padding: 2%;
-        left: 0;
-        bottom: 0;
-        background: rgba(0,0,0,.5);
-        color: #fff;
-        text-shadow: 0 -1px 0 rgba(0,0,0,.3);
-        font-size: 14px;
-        line-height: 18px;
-      }
-</style>
     <base href="{{url_for('.ui')}}">
   </head>
   <body ng-controller="AppCtrl" ng-keyup="keyDownNotify($event)">
@@ -168,13 +155,8 @@
     {% for path, tmpl in templates %}
       <script id="{{path}}" type="text/ng-template">{{ tmpl | safe }}</script>
     {% endfor %}
+
     <script src="{{ url_for('static', filename='assets/aleph.js') }}"></script>
-    <script>
-      $(document).ready(function() {
-        $('.flexslider').flexslider({
-          animation: "slide"
-        });
-      });
-    </script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
   </body>
 </html>
