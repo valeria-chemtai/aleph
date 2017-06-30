@@ -1,7 +1,8 @@
 import aleph from '../aleph';
 
-aleph.controller('HomeCtrl', ['$scope', '$location', '$route', 'Collection', 'Authz', 'Role', 'Title', 'statistics', 'metadata',
-    function($scope, $location, $route, Collection, Authz, Role, Title, statistics, metadata) {
+aleph.controller('HomeCtrl', ['$scope', '$location', '$route', 'Collection', 'Articles', 'Authz', 'Role', 'Title', 'statistics', 'metadata',
+    function($scope, $location, $route, Collection, Articles, Authz, Role,
+    Title, statistics, metadata) {
 
   $scope.statistics = statistics;
   $scope.session = metadata.session;
@@ -9,6 +10,7 @@ aleph.controller('HomeCtrl', ['$scope', '$location', '$route', 'Collection', 'Au
   $scope.entitiesQuery = {q: ''};
   $scope.documentsQuery = {q: ''};
   $scope.authz = Authz;
+  $scope.articles = [];
 
   Title.set("Welcome");
 
@@ -27,5 +29,16 @@ aleph.controller('HomeCtrl', ['$scope', '$location', '$route', 'Collection', 'Au
       $location.path('/collections/' + coll.id);
     });
   };
+
+  var loadArticles = function() {
+      Articles.get().then(function(data) {
+        console.log("data: ", data);
+        console.log("data entry: ", data.entry);
+        $scope.articles = data.entry;
+      });
+
+  };
+
+  loadArticles();
 
 }]);
