@@ -18,7 +18,79 @@
     <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700,800" rel="stylesheet">
     <link type="text/css" href="{{ url_for('static', filename='assets/aleph.css') }}" rel="stylesheet">
     <link rel="shortcut icon" href="{{ config.APP_FAVICON }}">
+      <style>
+          .flag-item {
+            width: 60px;
+            height: 60px;
+            margin: 0 auto;
+            border-radius: 50%;
+            background-size: cover;
+            background-position: center;
+            box-shadow: 0 0 4px rgba(0,0,0,0.2);
+          }
+          .flag-group {
+              text-transform: capitalize;
+          }
+          .flag-group li {
+            list-style-type: none;
+            display: inline-block;
+            width: 7%;
+            vertical-align: top;
+            cursor: pointer;
+          }
+          .row-dark{
+            background-color: #982022;
+            color: white;
+            font-size: 17px;
+            padding: 20px 0;
+          }
+         .call-to-action-section__button {
+           margin-top: 6%;
+            text-align: right;
+           font-size: 16px;
+           min-height: 60px;
+          }
+         .button--large {
+            padding: 16px 35px;
+            background-color: #fff;
+            color: #982022;
+            font-size: 18px;
+            font-weight: 600;
+        }
+        .carousel {
+            position: relative;
+            padding: 40px 0;
+        }
+        .carousel p {
+            font-size: 18px;
+        }
+        .carousel img.use-cases__illustration {
+            width: 90%;
+        }
 
+        .use-cases__h3 {
+            font-weight: 400;
+            color: #982022;
+            margin-bottom: 0;
+          text-transform: none;
+        }
+
+        .use-cases__h2 {
+            font-weight: 200;
+            color: #a13436;
+            margin-top: 0;
+          text-transform: none;
+        }
+        .button--small {
+            padding: 4px 20px 4px 20px;
+            background-color: #982022;;
+            color: rgba(255,255,255,0.8);
+        }
+        .button--small a, a:visited {
+            color: #a13436;
+            text-decoration: none;
+        }
+      </style>
     <base href="{{url_for('.ui')}}">
   </head>
   <body ng-controller="AppCtrl" ng-keyup="keyDownNotify($event)">
@@ -157,5 +229,6 @@
     {% endfor %}
 
     <script src="{{ url_for('static', filename='assets/aleph.js') }}"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
   </body>
 </html>
