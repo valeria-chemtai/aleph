@@ -17,7 +17,28 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
     <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700,800" rel="stylesheet">
     <link type="text/css" href="{{ url_for('static', filename='assets/aleph.css') }}" rel="stylesheet">
-    <link rel="shortcut icon" href="{{ config.APP_FAVICON }}">
+    <link rel="shortcut icon" href="{{ config.APP_FAVICON }}"/>
+      <style>
+          .flag-item {
+            width: 60px;
+            height: 60px;
+            margin: 0 auto;
+            border-radius: 50%;
+            background-size: cover;
+            background-position: center;
+            box-shadow: 0 0 4px rgba(0,0,0,0.2);
+          }
+          .flag-group {
+              text-transform: capitalize;
+          }
+          .flag-group li {
+            list-style-type: none;
+            display: inline-block;
+            width: 7%;
+            vertical-align: top;
+            cursor: pointer;
+          }
+      </style>
 
     <base href="{{url_for('.ui')}}">
   </head>
