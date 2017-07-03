@@ -19,3 +19,4 @@ test_settings.py
 .coverage
 
 node_modules
+.idea/
