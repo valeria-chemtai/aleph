@@ -38,6 +38,24 @@
             vertical-align: top;
             cursor: pointer;
           }
+          .logo {
+            height: 110px;
+            padding: 5px 30px;
+          }
+          footer {
+            background: #ededea;
+          }
+          .aleph_help_links a:hover {
+            color: #000;
+          }
+          .aleph_help_links, .aleph_help_links p a {
+            color: #982022;
+            text-transform: capitalize;
+            text-decoration: none;
+          }
+          .aleph_help_links {
+            margin-top: 6%;
+          }
       </style>
 
     <base href="{{url_for('.ui')}}">
@@ -145,16 +163,21 @@
       <div class="container-fluid">
         <div class="row">
           <div class="col-md-12">
-            <p class="pull-right">
-              <strong>&alefsym;</strong>
-              aleph search engine &middot;
-              <i class="fa fa-github-square"></i>
-              <a href="https://github.com/opengazettes/aleph" target="_blank">source code</a>
-              &middot;
-              <a href="/help">search guide</a>
-              &middot;
-              <a href="/help/api">api documentation</a>
-            </p>
+            <div class="col-md-2 aleph_help_links">
+              <div style="width: 155px; margin: 0 auto;">
+              <p><strong>&alefsym;</strong> &nbsp; aleph search engine </p>
+              <p><i class="fa fa-github-square"></i><a href="https://github.com/opengazettes/aleph" target="_blank"> &nbsp; source code</a></p>
+              <p><a href="/help"><i class="fa fa-search" aria-hidden="true"></i>&nbsp;search guide</a></p>
+              <p><a href="/help/api"><i class="fa fa-book" aria-hidden="true"></i>&nbsp;api documentation</a></p>
+              </div>
+            </div>
+            <div class="col-md-10" style="padding: 50px 50px;">
+              <a href="http://kenyalaw.org" target="_blank"><img src="static/images/logos/kenyalaw.png" class="logo" alt="Kenya Law" style="width: 344.58px; height: 75px;"></a>
+              <a href="https://codeforkenya.org" target="_blank"><img src="static/images/logos/cfkenya.png" class="logo" alt="Code for Kenya"></a>
+              <a href="https://openup.org.za" target="_blank" rel="noopener"><img src="static/images/logos/openup.svg" class="logo" alt="OpenUpZA"></a>
+              <a href="https://codeforafrica.org/" target="_blank"><img src="static/images/logos/cfafrica.png" class="logo" alt="Code for Africa"></a>
+              <a href="https://investigativecenters.org/" target="_blank"><img src="static/images/logos/ancir.png" class="logo" alt="ANCIR"></a>
+            </div>
           </div>
         </div>
       </div>
