@@ -110,8 +110,8 @@
 <script>
   var spreadsheetID = "1SN02GD7b4d2dqrbgfrWE2bclSorXYF5E6UqhNFjaWig";
   var url = "https://spreadsheets.google.com/feeds/list/" + spreadsheetID + "/od6/public/values?alt=json";
-  var max_title_len = 100;
-  var max_description_len = 200;
+  var max_title_len = 80;
+  var max_description_len = 150;
   $.getJSON(url, function(data) {
     var entry = data.feed.entry;
     var news_set_index = 0;
@@ -171,8 +171,11 @@
           end = true;
       }
       news_row += new_news_row +
-              '<a href="' + story_url +'"><div class="col-md-6 news-item"><h2>' + title + '</h2><p>'
-              + description + '</p></div></a>' + end_news_row;
+          '<a href="' + story_url +'"><div class="col-md-6 news-item">'
+          + '<h2>' + title + '</h2>'
+          + '<div class="date">' + publish_date + '</div>'
+          + '<p>' + description + '</p>'
+          + '</div></a>' + end_news_row;
       if (end) {
           newsSet.append(news_row);
       }
@@ -187,15 +190,37 @@
     margin-bottom: -1000px;
     padding-bottom: 1000px;
     min-height: 150px;
-    transition: background-color 0.2ss ease;
+    transition: background-color 0.2s ease-out;
+    -webkit-transition: background-color 0.2s ease-out;
+    -moz-transition: background-color 0.2s ease-out;
+    -o-transition: background-color 0.2s ease-out;
 
   }
-  .item a .news-item{
+  .date {
+    margin-left: 10px;
+    font-style: italic;
+    font-size: 0.8em;
+    color: #fff;
+  }
+  .item a{
     color: #fff;
     cursor: pointer;
+    text-decoration: none;
   }
+
+  .item a .news-item h2{
+    padding: 10px 10px 0 10px;
+    margin-bottom: 0;
+    font-size: 1.2em;
+  }
+
+  .item a .news-item p{
+    padding: 10px 10px 0 10px;
+  }
+
   .item a .news-item:hover{
     background-color: rgba(0, 0, 0, 0.10);
+    cursor: pointer;
   }
   .item .col-md-12 {
     /*background: rgba(0, 0, 0, 0.25);*/
@@ -210,15 +235,5 @@
     }
 
   }
-  /*.item .col-md-12:after {*/
-    /*content: "";*/
-    /*position: absolute;*/
-    /*z-index: 1;*/
-    /*top: 0;*/
-    /*bottom: 0;*/
-    /*left: 50%;*/
-    /*border-left: 12px solid #3a4953;*/
-    /*transform: translate(-50%);*/
-/*}*/
 
 </style>
