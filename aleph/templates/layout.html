@@ -20,13 +20,20 @@
     <link rel="shortcut icon" href="{{ config.APP_FAVICON }}">
 
     <style>
+      .carousel .carousel-control {
+          z-index: 5;
+      }
+
       .carousel .carousel-inner .item {
         height: 550px;
         min-height: 550px;
         padding: 0 15%;
-        margin-bottom: 65px;
         overflow-y: scroll;
       }
+      #newsCarousel.carousel .carousel-inner .item {
+          margin-bottom: 50px;
+      }
+
       .carousel .carousel-control.right-ctrl {
         left: auto;
         right: 0;
@@ -36,8 +43,25 @@
         color: #f5f5f5;
       }
 
-      .carousel-control {
+      #useCaseCarousel .carousel-control {
         z-index: 100;
+        opacity: 1;
+        color: #213c4f;
+      }
+
+      #useCaseCarousel .carousel-control:hover {
+        transition: .5s color ease-out;
+        color: #3c5263;
+      }
+
+
+      #useCaseCarousel .carousel-indicators li{
+          border: 1px solid #213c4f;
+      }
+
+      #useCaseCarousel .carousel-inner .item {
+          height: 450px;
+          min-height: 450px;
       }
 
           .flag-item {
@@ -120,15 +144,20 @@
             font-size: 18px;
             font-weight: 600;
         }
+
         .carousel {
             position: relative;
-            padding: 40px 0;
+            padding: 0 0 50px;
         }
         .carousel p {
-            font-size: 18px;
+            font-size: 15px;
         }
-        .carousel img.use-cases__illustration {
+        .carousel .use-cases__illustration img{
             width: 90%;
+        }
+
+        .carousel .use-cases__illustration{
+            padding: 30px;
         }
         .use-cases__h3 {
             font-weight: 400;
@@ -150,6 +179,10 @@
         .button--small a, a:visited {
             color: #a13436;
             text-decoration: none;
+        }
+
+        footer .mentions {
+            float: right;
         }
       </style>
     <base href="{{url_for('.ui')}}">
@@ -264,43 +297,42 @@
               </div>
           </div>
         </div>
-          <div class="row footer_text">
-            <div class="col-md-8 col-md-offset-2">
-              <div class="col-md-4">
-                <h3>Solutions</h3>
-                <ul>
-                  <li><a href="/solutions">Use Cases</a></li>
-                  <li><a href="/plans">Plans &amp; Pricing</a></li>
-                  <li><a href="/contact">Contact Sales</a></li>
-                </ul>
-              </div>
-              <div class="col-md-3 col-md-offset-1">
-                <h3>Documentation</h3>
-                <ul>
-                  <li><a href="/about">About OpenGazettes</a></li>
-                  <li><a href="/api">API Reference</a></li>
-                </ul>
-              </div>
-              <div class="col-md-3 col-md-offset-1">
-                <h3>Policies</h3>
-                <ul>
-                  <li><a href="/privacy_policy">Privacy Policy</a></li>
-                  <li><a href="/redaction_policy">Redaction Policy</a></li>
-                </ul>
-              </div>
-            </div>
+        <div class="row footer_text">
+        <div class="col-md-8 col-md-offset-2">
+          <div class="col-md-4">
+            <h3>Solutions</h3>
+            <ul>
+              <li><a href="/solutions">Use Cases</a></li>
+              <li><a href="/plans">Plans &amp; Pricing</a></li>
+              <li><a href="/contact">Contact Sales</a></li>
+            </ul>
           </div>
+          <div class="col-md-3 col-md-offset-1">
+            <h3>Documentation</h3>
+            <ul>
+              <li><a href="/about">About OpenGazettes</a></li>
+              <li><a href="/api">API Reference</a></li>
+            </ul>
+          </div>
+          <div class="col-md-3 col-md-offset-1">
+            <h3>Policies</h3>
+            <ul>
+              <li><a href="/privacy_policy">Privacy Policy</a></li>
+              <li><a href="/redaction_policy">Redaction Policy</a></li>
+            </ul>
+          </div>
+        </div>
         </div>
         <div class="row flags">
           <div class="col-md-12">
-            <div class="col-md-8"></div>
-            <div class="col-md-4 mentions">
+            <div class="mentions">
               <span>Funded by</span>
               <a href="https://innovateafrica.fund/" target="_blank"><img src="static/images/logos/Innovate_africa.png" alt="Innovateafrica"></a>
               <span>&nbsp; &nbsp; Brought to you by</span>
               <a href="https://codeforafrica.org/" target="_blank"><img src="static/images/logos/CfAFRICA-White.png" alt="CfA"></a>
             </div>
           </div>
+        </div>
         </div>
     </footer>
 
