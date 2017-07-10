@@ -28,7 +28,6 @@
         <a ng-repeat="collection in collections.results track by collection.id"
            href="/documents?filter:collection_id={{::collection.id}}"
            class="list-group-item">
-            Coll obj: {{::collection }}
           <span class="badge" ng-if="collection.doc_count">
             {{::collection.doc_count | number}}
           </span>
@@ -95,6 +94,7 @@
       </form>
     </div>
   </div>
+  <!-- Timely Data -->
   <div class="row row-dark">
     <div class="col-sm-10 col-sm-offset-1 col-md-8 col-md-offset-2">
       <div class="col-sm-7 col-md-8" style="padding: 5px 0;" >
@@ -105,6 +105,40 @@
       </div>
     </div>
   </div>
+  
+  <!-- News Slide -->
+  <div class="row dark-row">
+    <div style="text-align: center;">
+      <h2> <i class="fa fa-fw fa-newspaper-o"></i>
+        What's Happening
+      </h2>
+    </div>
+      <div id="newsCarousel" class="carousel slide" ng-non-bindable data-interval="false" data-ride="carousel">
+
+      <!-- Indicators -->
+        <ol class="carousel-indicators">
+
+        </ol>
+
+        <!-- Wrapper for slides -->
+        <div class="carousel-inner">
+
+
+          <!-- Left and right controls -->
+          <a class="carousel-control" data-target="#newsCarousel" data-slide="prev">
+            <span class="glyphicon glyphicon-chevron-left"></span>
+            <span class="sr-only">Previous</span>
+          </a>
+          <a class="right-ctrl carousel-control" data-target="#newsCarousel" data-slide="next">
+            <span class="glyphicon glyphicon-chevron-right"></span>
+            <span class="sr-only">Next</span>
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  <!-- Use case -->
  <div class="row">
   <div id="myCarousel" class="carousel slide" data-interval="false" ng-non-bindable style="width:100%;">
     <!-- Indicators -->
@@ -182,4 +216,137 @@
   </div>
 </div>
 </div>
+<script>
+  var spreadsheetID = "1SN02GD7b4d2dqrbgfrWE2bclSorXYF5E6UqhNFjaWig";
+  var url = "https://spreadsheets.google.com/feeds/list/" + spreadsheetID + "/od6/public/values?alt=json";
+  var max_title_len = 80;
+  var max_description_len = 150;
+  $.getJSON(url, function(data) {
+    var entry = data.feed.entry;
+    var news_set_index = 0;
+    var newsCarousel = $('#newsCarousel');
+    var carouselInner = newsCarousel.children('.carousel-inner');
+    var carouselIndicator = newsCarousel.children('.carousel-indicators');
+    var news_row = '';
+    $(entry).each(function(index) {
+      // Columns: Title, Descriptions, Publish Date, Author Name, Image URL, Story URL.
+      console.log("news_set_index before: " + news_set_index);
+      if (index % 4 === 0) {
+        var active = "";
+        if (news_set_index === 0) {
+          active = "active";
+        } else {
+          active = "";
+        }
+        // Create a new news set div
+        carouselInner.append(
+        '<div id="news-set-' + news_set_index + '" class="item ' + active + '"></div>');
+        // Create a new indicator for the new news-set
+        carouselIndicator.append(
+        '<li data-target="#newsCarousel" data-slide-to="' + news_set_index +
+        '" class="' + active + '"></li>');
+        // Finally increment the news-set index
+        news_set_index += 1;
+        console.log("incrementing news_set_index: " + news_set_index);
+      }
+      var newsSet = carouselInner.children('#news-set-' + (news_set_index - 1));
+      var title = this.gsx$title.$t;
+      var description = this.gsx$descriptions.$t;
+      var story_url = this.gsx$storyurl.$t;
+      var author_name = this.gsx$authorname.$t;
+      var publish_date = this.gsx$publishdate.$t;
+
+
+
+      if (title.length > max_title_len) {
+          title = title.substring(0,max_title_len) + "...";
+      }
+      if (description.length > max_description_len) {
+          description= description.substring(0,max_description_len) + "...";
+      }
+      var end = false;
+      if (entry.length == index + 1 ){
+          end = true;
+      }
+      var new_news_row = '';
+      var end_news_row = '';
+      if (index % 2 === 0) {
+          news_row = '';
+          new_news_row = '<div class="col-md-12">';
+          end_news_row = '';
+      } else {
+          new_news_row = '';
+          end_news_row = '</div>';
+          end = true;
+      }
+      news_row += new_news_row +
+          '<a href="' + story_url +'"><div class="col-md-6 news-item">'
+          + '<h2>' + title + '</h2>'
+          + '<div class="date">' + publish_date + '</div>'
+          + '<p>' + description + '</p>'
+          + '</div></a>' + end_news_row;
+      if (end) {
+          newsSet.append(news_row);
+      }
+    });
+  });
+</script>
+<style>
+  .item .col-md-12 .news-item {
+    background: rgba(0, 0, 0, 0.15);
+    border-left: 12px solid #3a4953;
+    border-bottom: 12px solid #3a4953;
+    margin-bottom: -1000px;
+    padding-bottom: 1000px;
+    min-height: 150px;
+    transition: background-color 0.2s ease-out;
+    -webkit-transition: background-color 0.2s ease-out;
+    -moz-transition: background-color 0.2s ease-out;
+    -o-transition: background-color 0.2s ease-out;
+
+  }
+  .date {
+    margin-left: 10px;
+    font-style: italic;
+    font-size: 0.8em;
+    color: #fff;
+  }
+  .item a{
+    color: #fff;
+    cursor: pointer;
+    text-decoration: none;
+  }
+
+  .item a .news-item h2{
+    padding: 10px 10px 0 10px;
+    margin-bottom: 0;
+    font-size: 1.2em;
+    word-wrap: break-word;
+  }
+
+  .item a .news-item p{
+    padding: 10px 10px 0 10px;
+  }
+
+  .item a .news-item:hover{
+    background-color: rgba(0, 0, 0, 0.10);
+    cursor: pointer;
+  }
+  .item .col-md-12 {
+    /*background: rgba(0, 0, 0, 0.25);*/
+    border-bottom: 12px solid #3a4953;
+    overflow: hidden;
+  }
+
+  @media (max-width: 991px) {
+    .item .col-md-12 .news-item{
+      margin-bottom: 0;
+      padding-bottom: 0;
+    }
+
+  }
+
+</style>
+  
+
 
