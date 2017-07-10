@@ -17,6 +17,7 @@ psycopg2==2.6.2
 Pillow==3.2.0
 tesserwrap==0.1.6
 lxml==3.3.5
+boto
 boto3==1.4.1
 requests>=2.5.1
 apikit==0.3.2
@@ -59,8 +60,11 @@ dalet>=1.1
 subprocess32
 functools32>=3.2
 
+# So that Elasticsearch will work with https index URLs (Amazon Elasticsearch Service)
+certifi==2017.4.17
+
 # Docs
 # -r requirements-docs.txt
 
 # Testing
--r requirements-testing.txt
+# -r requirements-testing.txt
