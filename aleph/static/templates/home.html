@@ -234,7 +234,6 @@
     var news_row = '';
     $(entry).each(function(index) {
       // Columns: Title, Descriptions, Publish Date, Author Name, Image URL, Story URL.
-      console.log("news_set_index before: " + news_set_index);
       if (index % 4 === 0) {
         var active = "";
         if (news_set_index === 0) {
@@ -251,7 +250,6 @@
         '" class="' + active + '"></li>');
         // Finally increment the news-set index
         news_set_index += 1;
-        console.log("incrementing news_set_index: " + news_set_index);
       }
       var newsSet = carouselInner.children('#news-set-' + (news_set_index - 1));
       var title = this.gsx$title.$t;
@@ -355,15 +353,17 @@
       }
 
       .carousel .carousel-inner .item {
-        padding: 30px 15%;
-        overflow-y: scroll;
+        padding: 15px 15%;
       }
 
       .carousel .carousel-inner {
         height: 550px;
+          width: inherit;
       }
       #newsCarousel.carousel .carousel-inner .item {
-          margin-bottom: 50px;
+          height: 540px;
+        overflow: scroll;
+        margin-bottom: 50px;
       }
 
       .carousel .carousel-control.right-ctrl {
