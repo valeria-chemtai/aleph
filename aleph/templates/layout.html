@@ -18,6 +18,7 @@
     <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700,800" rel="stylesheet">
     <link type="text/css" href="{{ url_for('static', filename='assets/aleph.css') }}" rel="stylesheet">
     <link rel="shortcut icon" href="{{ config.APP_FAVICON }}">
+
     <style>
       .carousel .carousel-inner .item {
         height: 550px;
@@ -39,7 +40,118 @@
         z-index: 100;
       }
 
-    </style>
+          .flag-item {
+            width: 60px;
+            height: 60px;
+            margin: 0 auto;
+            border-radius: 50%;
+            background-size: cover;
+            background-position: center;
+            box-shadow: 0 0 4px rgba(0,0,0,0.2);
+          }
+          .flag-group {
+              text-transform: capitalize;
+          }
+          .flag-group li {
+            list-style-type: none;
+            display: inline-block;
+            width: 7%;
+            vertical-align: top;
+            cursor: pointer;
+          }
+          .logo {
+            height: 100px;
+            padding: 10px 5px;
+          }
+          footer {
+            background: #ededea;
+            padding-bottom: 0em;
+          }
+          .footer_text a:hover {
+            text-decoration: underline !important;
+          }
+          .footer_text li {
+            list-style: none;
+          }
+          .footer_text h3 {
+            padding-right: 20px;
+          }
+          .row.footer_text a {
+            text-decoration: none;
+            color: #000;
+          }
+          .footer_text, .footer_text div {
+            color: #982022;
+            text-transform: capitalize;
+            text-decoration: none;
+          }
+          .flags {
+            padding: 15px;
+            background: #3a4953;;
+          }
+          .mentions img {
+            height: 30px;
+          }
+          .mentions span {
+            margin: 15px 10px;
+          }
+          div.row.footer_text h3 {
+            margin-left: 40px;
+          }
+          img.logo {
+            margin: 10px 20px;
+          }
+          .row-dark{
+            background-color: #982022;
+            color: white;
+            font-size: 17px;
+            padding: 20px 0;
+          }
+         .call-to-action-section__button {
+           margin-top: 6%;
+            text-align: right;
+           font-size: 16px;
+           min-height: 60px;
+          }
+         .button--large {
+            padding: 16px 35px;
+            background-color: #fff;
+            color: #982022;
+            font-size: 18px;
+            font-weight: 600;
+        }
+        .carousel {
+            position: relative;
+            padding: 40px 0;
+        }
+        .carousel p {
+            font-size: 18px;
+        }
+        .carousel img.use-cases__illustration {
+            width: 90%;
+        }
+        .use-cases__h3 {
+            font-weight: 400;
+            color: #982022;
+            margin-bottom: 0;
+          text-transform: none;
+        }
+        .use-cases__h2 {
+            font-weight: 200;
+            color: #a13436;
+            margin-top: 0;
+          text-transform: none;
+        }
+        .button--small {
+            padding: 4px 20px 4px 20px;
+            background-color: #982022;;
+            color: rgba(255,255,255,0.8);
+        }
+        .button--small a, a:visited {
+            color: #a13436;
+            text-decoration: none;
+        }
+      </style>
     <base href="{{url_for('.ui')}}">
   </head>
   <body ng-controller="AppCtrl" ng-keyup="keyDownNotify($event)">
@@ -145,19 +257,51 @@
       <div class="container-fluid">
         <div class="row">
           <div class="col-md-12">
-            <p class="pull-right">
-              <strong>&alefsym;</strong>
-              aleph search engine &middot;
-              <i class="fa fa-github-square"></i>
-              <a href="https://github.com/opengazettes/aleph" target="_blank">source code</a>
-              &middot;
-              <a href="/help">search guide</a>
-              &middot;
-              <a href="/help/api">api documentation</a>
-            </p>
+              <div style="margin: 0 auto; display: table;">
+                <a href="http://kenyalaw.org" target="_blank"><img src="static/images/logos/kenyalaw.png" class="logo" alt="Kenya Law" style="height: 75px;"></a>
+                <a href="https://www.africanlii.org"  target="_blank" rel="noopener"><img src="static/images/logos/africanlii.png" class="logo" alt="AfricanLII"></a>
+                <a href="https://investigativecenters.org"  target="_blank"><img src="static/images/logos/ancir.png" class="logo" alt="ANCIR"></a>
+              </div>
           </div>
         </div>
-      </div>
+          <div class="row footer_text">
+            <div class="col-md-8 col-md-offset-2">
+              <div class="col-md-4">
+                <h3>Solutions</h3>
+                <ul>
+                  <li><a href="/solutions">Use Cases</a></li>
+                  <li><a href="/plans">Plans &amp; Pricing</a></li>
+                  <li><a href="/contact">Contact Sales</a></li>
+                </ul>
+              </div>
+              <div class="col-md-3 col-md-offset-1">
+                <h3>Documentation</h3>
+                <ul>
+                  <li><a href="/about">About OpenGazettes</a></li>
+                  <li><a href="/api">API Reference</a></li>
+                </ul>
+              </div>
+              <div class="col-md-3 col-md-offset-1">
+                <h3>Policies</h3>
+                <ul>
+                  <li><a href="/privacy_policy">Privacy Policy</a></li>
+                  <li><a href="/redaction_policy">Redaction Policy</a></li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="row flags">
+          <div class="col-md-12">
+            <div class="col-md-8"></div>
+            <div class="col-md-4 mentions">
+              <span>Funded by</span>
+              <a href="https://innovateafrica.fund/" target="_blank"><img src="static/images/logos/Innovate_africa.png" alt="Innovateafrica"></a>
+              <span>&nbsp; &nbsp; Brought to you by</span>
+              <a href="https://codeforafrica.org/" target="_blank"><img src="static/images/logos/CfAFRICA-White.png" alt="CfA"></a>
+            </div>
+          </div>
+        </div>
     </footer>
 
     {% if config.GA_TRACKING_ID is defined %}

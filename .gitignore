@@ -19,3 +19,6 @@ test_settings.py
 .coverage
 
 node_modules
+
+# editor files
+.idea/
