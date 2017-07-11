@@ -8,6 +8,7 @@ settings.py
 
 aleph/static/.webassets-cache/*
 aleph/static/assets/*
+!aleph/static/assets/country_codes
 aleph/static/style/_custom.scss
 build*
 docs/_build
