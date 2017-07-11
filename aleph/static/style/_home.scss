@@ -45,10 +45,12 @@ $darker-grey: #213c4f;
     }
 	.flag-group {
 		text-transform: capitalize;
+		margin: 0 auto;
+    	display: table;
 		li {
             list-style-type: none;
             display: inline-block;
-            width: 7%;
+            margin: 10px;
             vertical-align: top;
             cursor: pointer;
 		}
@@ -240,7 +242,6 @@ $darker-grey: #213c4f;
 footer {
 	background: $light-grey;
 	padding-bottom: 0;
-	text-decoration: none;
 	.logo {
 		height: 100px;
 		padding: 10px 5px;
@@ -259,12 +260,13 @@ footer {
 		}
 		a{
             color: #000;
+			text-decoration: none;
 			&:hover {
 				text-decoration: underline !important;
 			}
 		}
 	}
-	.flags {
+	.attributions {
 		padding: 15px;
 		background: $grey;
 		.mentions {
@@ -274,7 +276,10 @@ footer {
 				margin: 10px 20px;
 			}
 			span {
-				margin: 15px 10px;
+				margin: 15px 5px 15px 10px;
+			}
+			.mention {
+				float: right;
 			}
 		}
 	}
