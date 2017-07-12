@@ -19,7 +19,7 @@ tesserwrap==0.1.6
 lxml==3.3.5
 boto
 boto3==1.4.1
-requests>=2.5.1
+requests>=2.18.1
 apikit==0.3.2
 six
 unicodecsv==0.9.4
