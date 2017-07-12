@@ -21,7 +21,7 @@ var aleph = angular.module('aleph', [
 ]);
 
 import {
-  loadDocumentsSearch, loadDocument, loadPeek
+  loadDocumentsSearch, loadDocument, loadDocumentChildren
 } from './loaders/loadDocuments';
 import loadMetadata from './loaders/loadMetadata';
 import loadAlertsIndex from './loaders/loadAlertsIndex';
@@ -55,7 +55,6 @@ aleph.config([
     reloadOnSearch: false,
     resolve: {
       'data': loadDocumentsSearch,
-      'peek': loadPeek,
       'metadata': loadMetadata,
       'alerts': loadAlertsIndex
     }
@@ -77,17 +76,19 @@ aleph.config([
     reloadOnSearch: false,
     resolve: {
       'doc': loadDocument,
-      'metadata': loadMetadata
+      'metadata': loadMetadata,
+      'children': loadDocumentChildren,
     }
   });
 
-  $routeProvider.when('/tabular/:document_id/:table_id', {
+  $routeProvider.when('/tabular/:document_id/:sheet', {
     templateUrl: 'templates/documents/tabular.html',
     controller: 'TabularCtrl',
     reloadOnSearch: true,
     resolve: {
       'data': loadTabular,
-      'metadata': loadMetadata
+      'metadata': loadMetadata,
+      'children': loadDocumentChildren,
     }
   });
 
@@ -98,7 +99,8 @@ aleph.config([
     resolve: {
       'data': loadText,
       'metadata': loadMetadata,
-      'pages': loadPagesQuery
+      'pages': loadPagesQuery,
+      'children': loadDocumentChildren,
     }
   });
 
