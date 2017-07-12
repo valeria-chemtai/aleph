@@ -9,10 +9,10 @@
             "maxLength": 2048
         },
         "foreign_id": {
-            "type": "string"
+            "type": ["null", "string"]
         },
         "content_hash": {
-            "type": "string"
+            "type": ["null", "string"]
         },
         "title": {
             "type": "string",
@@ -20,22 +20,19 @@
             "maxLength": 2048
         },
         "summary": {
-            "type": "string"
+            "type": ["null", "string"]
         },
         "author": {
-            "type": "string"
+            "type": ["null", "string"]
         },
         "extension": {
-            "type": "string"
+            "type": ["null", "string"]
         },
         "mime_type": {
-            "type": "string"
+            "type": ["null", "string"]
         },
         "source_url": {
-            "type": "string"
-        },
-        "source_path": {
-            "type": "string"
+            "type": ["null", "string"]
         },
         "publication_date": {
           "type": "string",
@@ -52,18 +49,14 @@
         "keywords": {
             "type": "array",
             "items": {
-                "type": "string",
-                "minLength": 1,
-                "maxLength": 2048
+                "type": "string"
             },
             "uniqueItems": true
         },
         "phone_numbers": {
             "type": "array",
             "items": {
-                "type": "string",
-                "minLength": 1,
-                "maxLength": 256
+                "type": "string"
             },
             "uniqueItems": true
         },
@@ -108,9 +101,6 @@
             "uniqueItems": true
         },
         "headers": {
-            "type": ["null", "object"]
-        },
-        "parent": {
             "type": ["null", "object"]
         }
     }

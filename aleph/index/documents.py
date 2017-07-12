@@ -23,6 +23,10 @@ def index_document(document):
     if document.status == Document.STATUS_PENDING:
         return
 
+    # FIXME:
+    if document.type == Document.TYPE_OTHER:
+        return
+
     log.info("Index document: %r", document)
     data = document.to_index_dict()
 
@@ -41,4 +45,4 @@ def delete_document(document_id):
     try:
         es.delete(index=es_index, doc_type=TYPE_DOCUMENT, id=document_id)
     except NotFoundError:
-        pass
+        log.info("Delete non-existent document from index: %s", document_id)

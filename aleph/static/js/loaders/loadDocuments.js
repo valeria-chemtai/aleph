@@ -2,10 +2,6 @@ var loadDocumentsSearch = ['Document', function(Document) {
   return Document.search();
 }];
 
-var loadPeek = ['Document', function(Document) {
-  return Document.peek();
-}];
-
 var loadDocument = ['$http', '$q', '$route', '$location', 'Document',
     function($http, $q, $route, $location, Document) {
 
@@ -13,7 +9,6 @@ var loadDocument = ['$http', '$q', '$route', '$location', 'Document',
       documentId = $route.current.params.document_id;
 
   Document.get(documentId).then(function(doc) {
-    var table = null;
     dfd.resolve(doc);
   }, function(err) {
     dfd.reject(err);
@@ -21,4 +16,9 @@ var loadDocument = ['$http', '$q', '$route', '$location', 'Document',
   return dfd.promise;
 }];
 
-export {loadDocumentsSearch, loadDocument, loadPeek};
+var loadDocumentChildren = ['$http', '$q', '$route', '$location', 'Document',
+    function($http, $q, $route, $location, Document) {
+  return Document.queryChildren($route.current.params.document_id, 0);
+}];
+
+export {loadDocumentsSearch, loadDocument, loadDocumentChildren};
