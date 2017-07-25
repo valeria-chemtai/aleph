@@ -1,17 +1,18 @@
-import os
 import logging
 from werkzeug.exceptions import BadRequest, NotFound
 from flask import Blueprint, redirect, send_file, request
-from apikit import jsonify, Pager, get_limit, get_offset, request_data
+from apikit import jsonify, Pager, request_data
 
 from aleph.core import archive, url_for, db
-from aleph.model import Document, Entity, Reference, Collection
+from aleph.model import Document, DocumentRecord, Entity, Reference
 from aleph.logic import update_document
 from aleph.events import log_event
 from aleph.views.cache import enable_cache
-from aleph.search.tabular import tabular_query, execute_tabular_query
+from aleph.search import QueryState
+from aleph.search import records_query, execute_records_query
 from aleph.search.util import next_params
-from aleph.views.util import get_document, get_tabular, get_page
+from aleph.views.util import get_document
+from aleph.util import PDF_MIME
 
 
 log = logging.getLogger(__name__)
@@ -36,21 +37,16 @@ def view(document_id):
     doc = get_document(document_id)
     enable_cache()
     data = doc.to_dict()
+    if doc.parent is not None:
+        data['parent'] = doc.parent.to_dict()
     log_event(request, document_id=doc.id)
-    data['data_url'] = archive.generate_url(doc.meta)
+    data['data_url'] = archive.generate_url(doc.content_hash)
     if data['data_url'] is None:
         data['data_url'] = url_for('documents_api.file',
                                    document_id=document_id)
-    if doc.meta.is_pdf:
-        data['pdf_url'] = data['data_url']
-    else:
-        try:
-            data['pdf_url'] = archive.generate_url(doc.meta.pdf)
-        except Exception as ex:
-            log.info('Could not generate PDF url: %r', ex)
-        if data.get('pdf_url') is None:
-            data['pdf_url'] = url_for('documents_api.pdf',
-                                      document_id=document_id)
+    if doc.pdf_version:
+        data['pdf_url'] = url_for('documents_api.pdf',
+                                  document_id=document_id)
     return jsonify(data)
 
 
@@ -83,18 +79,21 @@ def file(document_id):
     document = get_document(document_id)
     enable_cache(server_side=True)
     log_event(request, document_id=document.id)
-    url = archive.generate_url(document.meta)
+    url = archive.generate_url(document.content_hash,
+                               file_name=document.file_name,
+                               mime_type=document.mime_type)
     if url is not None:
         return redirect(url)
 
-    local_path = archive.load_file(document.meta)
-    if not os.path.isfile(local_path):
+    local_path = archive.load_file(document.content_hash,
+                                   file_name=document.file_name)
+    if local_path is None:
         raise NotFound("File does not exist.")
 
     fh = open(local_path, 'rb')
     return send_file(fh, as_attachment=True,
-                     attachment_filename=document.meta.file_name,
-                     mimetype=document.meta.mime_type)
+                     attachment_filename=document.file_name,
+                     mimetype=document.mime_type)
 
 
 @blueprint.route('/api/1/documents/<int:document_id>/pdf')
@@ -104,43 +103,50 @@ def pdf(document_id):
     log_event(request, document_id=document.id)
     if document.type != Document.TYPE_TEXT:
         raise BadRequest("PDF is only available for text documents")
-    pdf = document.meta.pdf
-    url = archive.generate_url(pdf)
+    url = archive.generate_url(document.pdf_version, mime_type=PDF_MIME)
     if url is not None:
         return redirect(url)
 
-    try:
-        local_path = archive.load_file(pdf)
-        fh = open(local_path, 'rb')
-    except Exception as ex:
-        raise NotFound("Missing PDF file: %r" % ex)
-    return send_file(fh, mimetype=pdf.mime_type)
-
-
-@blueprint.route('/api/1/documents/<int:document_id>/pages/<int:number>')
-def page(document_id, number):
-    document, page = get_page(document_id, number)
-    enable_cache(server_side=True)
-    return jsonify(page)
+    path = archive.load_file(document.pdf_version,
+                             file_name=document.file_name)
+    if path is None:
+        raise NotFound("Missing PDF file.")
+    return send_file(open(path, 'rb'), mimetype=PDF_MIME)
 
 
 @blueprint.route('/api/1/documents/<int:document_id>/tables/<int:table_id>')
 def table(document_id, table_id):
-    document, tabular = get_tabular(document_id, table_id)
+    document = get_document(document_id)
     enable_cache(vary_user=True)
-    return jsonify(tabular)
+    try:
+        return jsonify(document.tables[table_id])
+    except IndexError:
+        raise NotFound("No such table: %s" % table_id)
 
 
-@blueprint.route('/api/1/documents/<int:document_id>/tables/<int:table_id>/rows')
-def rows(document_id, table_id):
-    document, tabular = get_tabular(document_id, table_id)
-    query = tabular_query(document_id, table_id, request.args)
-    query['size'] = get_limit(default=100)
-    query['from'] = get_offset()
-
-    result = execute_tabular_query(query)
+@blueprint.route('/api/1/documents/<int:document_id>/records')
+def records(document_id):
+    document = get_document(document_id)
+    enable_cache(vary_user=True)
+    state = QueryState(request.args, request.authz)
+    query = records_query(document.id, state)
+    result = execute_records_query(document.id, state, query)
     params = next_params(request.args, result)
     if params is not None:
-        result['next'] = url_for('documents_api.rows', document_id=document_id,
-                                 table_id=table_id, **params)
+        result['next'] = url_for('documents_api.records',
+                                 document_id=document_id,
+                                 **params)
     return jsonify(result)
+
+
+@blueprint.route('/api/1/documents/<int:document_id>/records/<int:index>')
+def record(document_id, index):
+    document = get_document(document_id)
+    q = db.session.query(DocumentRecord)
+    q = q.filter(DocumentRecord.document_id == document.id)
+    q = q.filter(DocumentRecord.index == index)
+    record = q.first()
+    if record is None:
+        raise NotFound("No such page: %s" % index)
+    enable_cache(server_side=True)
+    return jsonify(record)

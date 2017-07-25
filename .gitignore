@@ -8,15 +8,18 @@ settings.py
 
 aleph/static/.webassets-cache/*
 aleph/static/assets/*
+!aleph/static/assets/country_codes.json
 aleph/static/style/_custom.scss
 build*
 docs/_build
+site*
 
-celerybeat-schedule.db
-celerybeat-schedule
+celerybeat-schedule*
 aleph.env
 test_settings.py
 .coverage
 
 node_modules
+
+# editor files
 .idea/
