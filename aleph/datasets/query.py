@@ -14,7 +14,7 @@ from aleph.text import string_value
 from aleph.datasets.mapper import EntityMapper, LinkMapper
 
 log = logging.getLogger(__name__)
-DATA_PAGE = 10000
+DATA_PAGE = 2000
 
 
 class QueryTable(object):
@@ -82,7 +82,8 @@ class DBQuery(Query):
     def engine(self):
         if not hasattr(self, '_engine'):
             self._engine = create_engine(self.database_uri,
-                                         poolclass=NullPool)
+                                         poolclass=NullPool,
+                                         server_side_cursors=True)
         return self._engine
 
     @property
@@ -134,8 +135,7 @@ class DBQuery(Query):
     def compose_query(self):
         q = select(columns=self.mapped_columns, from_obj=self.from_clause,
                    use_labels=True)
-        q = self.apply_filters(q)
-        return q
+        return self.apply_filters(q)
 
     def iterrows(self):
         """Compose the actual query and return an iterator of ``Record``."""
@@ -145,15 +145,11 @@ class DBQuery(Query):
         rp = self.engine.execute(q)
         log.info("Query executed, loading data...")
         while True:
-            rows = rp.fetchmany(DATA_PAGE)
+            rows = rp.fetchmany(size=DATA_PAGE)
             if not len(rows):
                 break
             for row in rows:
-                data = {}
-                for k, v in row.items():
-                    k = mapping.get(k, k)
-                    data[k] = v
-                yield data
+                yield {mapping.get(k, k): v for k, v in row.items()}
 
 
 class CSVQuery(Query):
@@ -168,7 +164,7 @@ class CSVQuery(Query):
         if not len(self.csv_urls):
             log.warning("[%s]: no CSV URLs specified", dataset.name)
 
-    def read_csv(self, csv_url):
+    def read_remote_csv(self, csv_url):
         try:
             res = requests.get(csv_url, stream=True)
             res.raise_for_status()
@@ -178,8 +174,20 @@ class CSVQuery(Query):
 
         if res.encoding is None:
             res.encoding = 'utf-8'
-        for row in DictReader(res.iter_lines(decode_unicode=True)):
+        for row in DictReader(res.iter_lines(decode_unicode=False), skipinitialspace=True):
             yield row
+
+    def read_local_csv(self, path):
+        with open(path, "r") as f:
+            for row in DictReader(f, skipinitialspace=True):
+                yield row
+
+    def read_csv(self, csv_url):
+        parsed_url = requests.utils.urlparse(csv_url)
+        if parsed_url.scheme == 'file':
+            return self.read_local_csv(parsed_url.path)
+        else:
+            return self.read_remote_csv(csv_url)
 
     def check_filters(self, data):
         for k, v in self.data.get('filters', {}).items():

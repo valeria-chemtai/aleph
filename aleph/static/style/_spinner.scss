@@ -38,3 +38,14 @@
         }
     }
 }
+
+.text-spinner {
+    margin-top: 5em;
+    text-align: center;
+    color: $brand-primary;
+
+    i.big-icon {
+        font-size: 4em;
+        margin: 0.5em;
+    }
+}
