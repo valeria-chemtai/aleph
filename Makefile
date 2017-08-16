@@ -28,6 +28,7 @@ assets:
 	$(DEVDOCKER) /node_modules/webpack/bin/webpack.js --env.prod
 
 assets-dev:
+	touch aleph/static/style/_custom.scss;
 	$(DEVDOCKER) /node_modules/webpack/bin/webpack.js --env.dev -w
 
 rebuild:
